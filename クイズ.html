@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英単語クイズ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .quiz-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>英単語クイズ</h1>
+        <p id="question"></p>
+        <div id="choices">
+            <button onclick="checkAnswer(this)"></button>
+            <button onclick="checkAnswer(this)"></button>
+            <button onclick="checkAnswer(this)"></button>
+        </div>
+        <p id="feedback"></p>
+        <p id="score" style="display: none;"></p>
+    </div>
+
+    <script>
+        const words = [
+            { word: "apple", meaning: "りんご" },
+            { word: "book", meaning: "本" },
+            { word: "cat", meaning: "猫" }
+        ];
+
+        let currentWordIndex = 0;
+        let score = 0;
+
+        function displayWord() {
+            document.getElementById("question").innerText = `次の単語の意味は何ですか？"${words[currentWordIndex].word}"`;
+            const choices = document.querySelectorAll("#choices button");
+            for (let i = 0; i < choices.length; i++) {
+                choices[i].innerText = words[(currentWordIndex + i) % words.length].meaning;
+            }
+        }
+
+        function checkAnswer(button) {
+            if (button.innerText === words[currentWordIndex].meaning) {
+                document.getElementById("feedback").innerText = "正解です！";
+                score++;
+            } else {
+                document.getElementById("feedback").innerText = "不正解です。";
+            }
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            if (currentWordIndex === 0) {
+                displayScore();
+            } else {
+                displayWord();
+            }
+        }
+
+        function displayScore() {
+            document.getElementById("choices").style.display = "none";
+            document.getElementById("score").style.display = "block";
+            document.getElementById("score").innerText = `あなたのスコア: ${score}/${words.length}`;
+        }
+
+        window.onload = function() {
+            displayWord();
+        };
+    </script>
+</body>
+</html>
