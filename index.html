@@ -64,9 +64,17 @@
 
         function displayWord() {
             document.getElementById("question").innerText = `次の単語の意味は何ですか？"${words[currentWordIndex].word}"`;
-            const choices = document.querySelectorAll("#choices button");
+            const choices = Array.from(document.querySelectorAll("#choices button"));
+            shuffleArray(choices);
             for (let i = 0; i < choices.length; i++) {
                 choices[i].innerText = words[(currentWordIndex + i) % words.length].meaning;
+            }
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
         }
 
